@@ -13,6 +13,7 @@
 	 *
 	 **/
 	function bubbleSort(arr) {
+		// 冒泡排序
 		let tempArr = arr.concat();
 		let len = tempArr.length;
 		for (let i = 0; i < len - 1; i++) {
@@ -35,6 +36,7 @@
 	 * 快速排序的过程就是将基准数进行归位的过程
 	 * **/
 	function quickSort(arr) {
+		// 快速排序
 		let tempArr = arr.concat()
 		let len = tempArr.length
 		let left = 0;
@@ -97,7 +99,7 @@
 	 * **/
 
 	function isHuiWen (str){
-
+// 栈的应用，判断回文字符串
 		let len = str.length
 
 		let mid = Math.floor(len / 2) -1;
@@ -138,3 +140,58 @@
 
 
 })();
+
+
+/*
+*  深度优先搜索
+*
+*
+* */
+function fullPermutation (n){
+// 深度优先搜索实现全排列
+	let boxs = []
+	// 定义盒子
+	let cards = []
+	// 定义拿在手里的卡牌
+
+
+	for (let i = 1; i <= n; i ++){
+		// 初始化盒子和卡牌
+		// 0 表示盒子可用或者卡牌可用
+		boxs[i] = 0;
+		cards[i] =0;
+	}
+
+	let start = 1;
+	// 从第一个盒子开始放卡牌
+	(function dfs (step){
+		// step 表示站在第几个盒子
+		if ( step == n+1){
+			// 边界条件
+			// step == n + 1 表示所有盒子都被放过了
+			console.log(boxs)
+			// 输出一种排列
+			return;
+			// 返回之前的一步，(最近一次调用 dfs 函数的地方)
+		}
+
+		// 此时站第 step 个盒子面前，应该放那张牌呢?
+		// 按照1,2,3,...n 的顺序一一尝试
+		for (let i=1;i <=n; i ++){
+			if ( cards[i] == 0){
+				// 判断卡牌是否还在手里
+				// cardsp[i] === 0 表示第 i 号卡牌还在手里
+				// 然后开始尝试使用卡牌 i
+				boxs[step] = i;
+				// 将 i 号卡牌放入到第 step 个盒子中
+				cards[i] = 1;
+				// 将 cards[i] 设置为 1，表示第 i 号卡牌已经不再手里
+
+				dfs(step + 1);
+				// 第 step 盒子已经放好卡牌，开始走到下一个盒子面前
+				cards[i] = 0;
+				// 将尝试过的卡牌回收(这一步很重要)
+			}
+		}
+	})(start);
+}
