@@ -9,10 +9,10 @@
 
 如果有 n 个数进行排序，只需将 n-1 个数归位，就是说只需进行 n-1
  趟排序。而"每一趟"排序都需要从第 1 位开始进行相邻两个数的比较，将比校大的一个数放在后面，比较完毕以后向后移一位继续比较下面两个相邻数的大小，重复此步骤，直到最后一位尚未归位的数。
-  
+
   下面是 JavaScript 冒泡排序的代码实现:
-  
-  ``` 
+
+  ```
   function bubbleSort(arr) {
   		let tempArr = arr.concat();
   		let len = tempArr.length;
@@ -26,7 +26,7 @@
   				}
   			}
   		}
-  
+
   		return tempArr;
   	}
   ```
@@ -40,7 +40,7 @@
 实现原理是:每次排序的时候设置一个 **基准点**,
 将小于基准点的数全部放到基准点的左边，将大于基准点的数全部放到基准点的右边。当左边与右边相遇的时候将基准点归位。
 
-``` 
+```
 function quickSort(arr) {
 		let tempArr = arr.concat()
 		let len = tempArr.length
@@ -103,16 +103,16 @@ function quickSort(arr) {
 
 #### 栈
 
-栈是一种后进先出的数据结构。只能在一端进行插入和删除操作。在 JavaScript 
-中，我们并不需要使用 C 语言中的 `struct` 去构造自定义的数据结构。 使用 
-JavaScript 中的 `Array.prototype.shift()` 和 
+栈是一种后进先出的数据结构。只能在一端进行插入和删除操作。在 JavaScript
+中，我们并不需要使用 C 语言中的 `struct` 去构造自定义的数据结构。 使用
+JavaScript 中的 `Array.prototype.shift()` 和
 `Array.prototype.unshift()` 就可以轻松的实现对 **栈** 的模拟。
 
 下面是栈这种数据结构的简单应用，判断回文字符串：
 
-```  
+```
 function isHuiWen (str){
-	
+
 		let len = str.length
 
 		let mid = Math.floor(len / 2) -1;
@@ -128,20 +128,20 @@ function isHuiWen (str){
 
 		let next = 0;
 		// 代表开始匹配的下标
-		
-		
+
+
 		if (len % 2 == 0){
 			// 如果字符串的长度是偶数，那么开始匹配的下标等于 mid + 1
 			next = mid +1;
 		} else {
 			next = mid +2;
 		}
-		
+
 		for(next; next < len -1;next++){
 			// 开始匹配，如果 stack 的长度为 0，则代表一一匹配了
 			if ( stack.shift() == str[next]){
 				break;
-			}			
+			}
 		}
 
 		if (stack.length == 0){
@@ -163,7 +163,7 @@ function isHuiWen (str){
 
 下面的代码是解决深度优先搜索的基本模型:
 
-```  
+```
 function dfs (step) {
     // 判断边界
     if (/*条件*/) {
@@ -174,7 +174,7 @@ function dfs (step) {
      dfs(step + 1)
      // 继续下一步
     }
-    
+
     return;
     // 返回
 }
@@ -193,13 +193,13 @@ function dfs (step) {
 
 下面是深度优先实现这个游戏(全排列)的完整代码:
 
-``` 
+```
 function fullPermutation (n){
 	let boxs = []
 	// 定义盒子
 	let cards = []
 	// 定义拿在手里的卡牌
-	
+
 
 	for (let i = 1; i <= n; i ++){
 		// 初始化盒子和卡牌
@@ -216,7 +216,7 @@ function fullPermutation (n){
 			// 边界条件
 			// step == n + 1 表示所有盒子都被放过了
 			console.log(boxs)
-			// 输出一种排列 
+			// 输出一种排列
 			return;
 			// 返回之前的一步，(最近一次调用 dfs 函数的地方)
 		}
@@ -242,7 +242,7 @@ function fullPermutation (n){
 	})(start);
 
 	return;
-	
+
 }
 ```
 
