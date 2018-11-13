@@ -12,6 +12,12 @@
  const devWebpackConfig = merge(baseWebpackConfig, {
    module: {
      rules: utils.styleLoaders()
+    // rules: [
+    //   {
+    //     test: /\.scss$/,
+    //     use: ['style-loader', 'css-loader', 'sass-loader']
+    //   }
+    // ]
    },
    devServer: {
      // historyApiFallback: {

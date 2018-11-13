@@ -3,33 +3,41 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const isProd = process.env.NODE_ENV === 'production'
 const path = require('path')
 
-const cssLang = [{
-    name: 'css',
-    reg: /\.css$/,
-    loader: 'css-loader'
-  },
+const cssLang = [
+  // {
+  //   name: 'stylus',
+  //   reg: /\.stylus$/,
+  //   loader: 'stylus-loader'
+  // },
+  // {
+  //   name: 'less',
+  //   reg: /\.less$/,
+  //   loader: 'less-loader'
+  // },
   {
-    name: 'stylus',
-    reg: /\.stylus$/,
-    loader: 'stylus-loader'
-  },
-  {
-    name: 'less',
-    reg: /\.less$/,
-    loader: 'less-loader'
-  },
-  {
-    name: 'stylus',
-    reg: /\.styl$/,
-    loader: 'stylus-loader'
+    name: 'sass',
+    reg: /\.scss$/,
+    loader: 'sass-loader'
   }
+  // {
+  //   name: 'stylus',
+  //   reg: /\.styl$/,
+  //   loader: 'stylus-loader'
+  // }
 ]
 
 function genLoaders(lang) {
-  let loaders = ['css-loader', 'postcss-loader']
-  if (lang.name !== 'css') {
-    loaders.push(lang.loader)
+  const cssLoader = {
+    loader: 'css-loader',
+    options: {
+      minimize: process.env.NODE_ENV === 'production',
+      sourceMap: true
+    }
   }
+
+  const loaders = [cssLoader]
+
+  loaders.push(lang.loader)
 
   if (isProd) {
     // 生产环境需要提取 css
@@ -51,11 +59,9 @@ function genLoaders(lang) {
       allChunks: true, // extract-text-webpack-plugin 默认不会提取异步模块中的 CSS，需要加上配置
       filename: "css/[name].[contenthash].css"
     })
+  } else {
+    loaders.unshift('style-loader')
   }
-  // } else {
-  //   // 开发环境需要 vue-style-loader 将 css 提取到页面头部
-  //   loaders.unshift('vue-style-loader')
-  // }
 
   return loaders
 }

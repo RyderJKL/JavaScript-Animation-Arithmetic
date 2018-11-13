@@ -15,7 +15,7 @@ module.exports = {
     filename: '[name].js'
   },
   resolve: {
-    extensions: ['.js', '.styl', '.stylus', 'pug'],
+    extensions: ['.js', '.styl', '.stylus', '.scss', 'pug'],
     modules: [path.resolve(__dirname, '../node_modules')],
     alias: {
       '@': resolve('../src')
