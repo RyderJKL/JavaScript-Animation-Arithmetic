@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8">
   <title></title>
@@ -19,20 +18,25 @@
     #app {
       background: rgba(0, 0, 0, 0.4);
       padding: 10px 15px;
-    }
-
-    .js-class-element {
-      width: 20px;
-      height: 80%;
-      display: inline-block;
-      border: 1px solid red;
-      margin-right: 4px;
+      position: relative;
+      overflow: hidden;
+      height: 400px;
     }
   </style>
 </head>
 
 <body>
-  <div id="app">
-  </div>
+<div id="app"></div>
+  <br />
+  <div id="controlPanel">
+    <button id="shuffleArray">Shuffle Array</button>
+    <button id="bubbleSort">Bubble Sort</button>
+    <br /><br />
+    <div id="info"></div>
+    <br />
+    <div id="debug"></div>
+    <br /><br />
+</div>
 </body>
 </html>
+

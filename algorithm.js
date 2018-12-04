@@ -9,7 +9,7 @@
   /**
    *
    * 有 n 个数，只需进行 n-1 趟排序
-   * 每趟排序只需进行 n-i 次比较
+   * 每趟排序只需进行 n-i-1 次比较
    *
    **/
   function bubbleSort(arr) {
@@ -17,7 +17,7 @@
     let tempArr = arr.concat();
     let len = tempArr.length;
     for (let i = 0; i < len - 1; i++) {
-      for (let j = 0; j < len - i; j++) {
+      for (let j = 0; j < len - i - 1; j++) {
         if (tempArr[j] > tempArr[j + 1]) {
           let temp = tempArr[j]
           tempArr[j] = tempArr[j + 1]

@@ -9,3 +9,8 @@ out
 gen
 node_modules/
 yarn-error.log
+dist/
+config/*
+!config/prod.js
+!config/dev.js
+!config/local.example.js

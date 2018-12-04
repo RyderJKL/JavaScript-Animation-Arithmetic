@@ -1,0 +1,17 @@
+import router from '../../router'
+
+import template from './index.html'
+import './style.css'
+
+export default class {
+  mount(container) {
+    document.title = 'home'
+    container.innerHTML = template
+    container.querySelector('.bubblesort__goto-bubblesort').addEventListener('click', () => {
+      // 调用 router.go 方法加载 /bar 页面
+      router.go({
+        path: '/bubblesort'
+      })
+    })
+  }
+}
