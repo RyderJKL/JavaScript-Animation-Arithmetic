@@ -14,6 +14,11 @@ const routes = [
     component: () => import('./views/bubblesort')
   },
   {
+    name: 'search_list',
+    path: '/search_list',
+    component: () => import('./views/search-list')
+  },
+  {
     name: 'foo',
     path: '/foo',
     component: () => import('./views/foo')

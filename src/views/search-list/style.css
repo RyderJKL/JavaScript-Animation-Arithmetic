@@ -1,0 +1,106 @@
+.activity-search-wrap ul, li {
+  list-style: none outside none;
+  list-style-position: inside;
+  padding-inline-start: 0;
+}
+
+.activity-search-wrap {
+  color: #394262;
+  font-size: 14px;
+}
+
+#search-input {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  height: 38px;
+  line-height: 38px;
+  background: #FFFFFF;
+  border: 1px solid #C6C6C6;
+  border-radius: 4px;
+  padding-left: 23px;
+  color: #394262;
+  font-size: 14px;
+}
+
+.search-list {
+}
+
+.search-list_result-panel {
+  display: none;
+}
+
+.selected-list {
+}
+
+.selected-list .delete-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+}
+
+.list-box {
+  /* position: absolute; */
+  border: 1px solid #C6C6C6;
+  border-radius: 4px;
+  margin-top: 10px
+}
+
+.list-panel {
+  padding: 10px 0px 20px;
+  /* position: absolute; */
+}
+
+.list_panel_item {
+  position: relative;
+  height: 44px;
+  line-height: 44px;
+  background: #FFFFFF;
+  box-shadow: inset 0 -1px 0 0 #EAEDF2;
+  padding: 0px 10px 0px 23px;
+}
+
+.list_panel_item:hover {
+  background: #F6F6F6;
+}
+
+.list_panel_item_name {
+  display: inline-block;
+  width: calc(100% - 120px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100px;
+  display: inline-block;
+  text-align: center;
+  padding: 2px 5px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 14px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: white;
+  /* box-shadow: 0px 1px  */
+}
+
+.add-button {
+  background: #AAE397;
+  color: #417505;
+}
+
+.delete-button {
+  background: #F2F4F6;
+  color: #9B9B9B;
+}

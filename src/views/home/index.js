@@ -7,10 +7,14 @@ export default class {
   mount(container) {
     document.title = 'home'
     container.innerHTML = template
-    container.querySelector('.bubblesort__goto-bubblesort').addEventListener('click', () => {
+    container.querySelector('.menu').addEventListener('click', function (e) {
+      console.log(e)
+      const target = e.target
+      const menuLink = target.dataset && target.dataset.link
+      if (!menuLink) return
       // 调用 router.go 方法加载 /bar 页面
       router.go({
-        path: '/bubblesort'
+        path: `/${menuLink}`
       })
     })
   }

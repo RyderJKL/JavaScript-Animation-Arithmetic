@@ -1,0 +1,12 @@
+.container {
+  position: relative;
+}
+
+#myCanvas {
+  position: absolute;
+  margin: 20px 50%;
+  transform: translateX(-50%);
+  display: block;
+  border: 1px solid lightBlue;
+  box-shadow: 0 1px 3px lightBlue;
+}

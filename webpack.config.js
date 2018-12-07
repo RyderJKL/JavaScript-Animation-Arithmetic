@@ -43,6 +43,11 @@ module.exports = {
     chunkFilename: '[chunkhash].js'
   },
 
+   externals: {
+     jQuery: 'jquery',
+     $: 'jquery'
+   },
+
   module: {
     rules: [
       {
@@ -119,6 +124,10 @@ module.exports = {
       DEBUG: dev,
       VERSION: JSON.stringify(pkgInfo.version),
       CONFIG: JSON.stringify(config.runtimeChunk)
+    }),
+    new Webpack.ProvidePlugin({
+      $: 'jquery',
+      'jQuery': 'jquery'
     })
   ],
   optimization: {
