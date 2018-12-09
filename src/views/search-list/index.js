@@ -4,63 +4,51 @@ import './style.css'
 // import './jquery.ba-throttle-debounce.min.js'
 
 export default class {
-  constructor () {
-    this.resultList = []
-  }
-
-  debounce(func, wait, immediate) {
-    let timeout, args, context, timestamp, result
-
-    const later = function () {
-      // 据上一次触发时间间隔
-      const last = +new Date() - timestamp
-
-      // 上次被包装函数被调用时间间隔last小于设定时间间隔wait
-      if (last < wait && last > 0) {
-        timeout = setTimeout(later, wait - last)
-      } else {
-        timeout = null
-        // 如果设定为immediate===true，因为开始边界已经调用过了此处无需调用
-        if (!immediate) {
-          result = func.apply(context, args)
-          if (!timeout) context = args = null
-        }
-      }
-    }
-
-    return function (...args) {
-      context = this
-      timestamp = +new Date()
-      const callNow = immediate && !timeout
-      // 如果延时不存在，重新设定延时
-      if (!timeout) timeout = setTimeout(later, wait)
-      if (callNow) {
-        result = func.apply(context, args)
-        context = args = null
-      }
-
-      return result
-    }
-  }
-
   mount(container) {
     const self = this
     document.title = 'foo'
     container.innerHTML = template
 
-    // $.ajax({
-    //   url: 'https://www.github.com/search?q=onejustone&type=Users',
-    //   crossDomain: true,
-    //   xhrFields: {
-    //     withCredentials: true
-    //   },
-    //   type: 'GET',
-    //   success: function (data) {
-    //     console.log(data)
-    //   }
-    // })
+    function catIn(target, parent) {
+      const path = []
+      let parentNode = target
+      while (parentNode && parentNode !== document.body) {
+        path.push(parentNode)
+        parentNode = parentNode.parentNode
+      }
+      return path.indexOf(parent) !== -1
+    }
 
-    const listProps = { id: 'id', value: 'value' }
+    function debounce(func, wait, immediate) {
+      let timeout, args, context, timestamp, result
+
+      const later = function () {
+        const last = +new Date() - timestamp
+
+        if (last < wait && last > 0) {
+          timeout = setTimeout(later, wait - last)
+        } else {
+          timeout = null
+          if (!immediate) {
+            result = func.apply(context, args)
+            if (!timeout) context = args = null
+          }
+        }
+      }
+
+      return function (...args) {
+        context = this
+        timestamp = +new Date()
+        const callNow = immediate && !timeout
+        if (!timeout) timeout = setTimeout(later, wait)
+        if (callNow) {
+          result = func.apply(context, args)
+          context = args = null
+        }
+
+        return result
+      }
+    }
 
     const testDataList = [
       { id: 'debug1', value: '[12.09 周日] 莲花山滑雪｜赠送390元雪票-全新雪具-免费教学-京郊最近大型滑雪场' },
@@ -77,45 +65,189 @@ export default class {
       { id: 'debug12', value: '周日 温莎KTV（花园桥店）唱歌＋狼人杀' },
     ]
 
+    const listProps = { id: 'id', value: 'value' }
+
     const $searchInput = $('#search-input')
     const $searchListPanel = $('.activity-search-wrap .search-list_result-panel')
+    const $searchListContainer = $('.activity-search-wrap .search-list')
+    const $selectedListPanel = $('.activity-search-wrap .selected-list .selected-list_panel')
+    const $ListPanelItem = $('.selected-list_panel')
 
-    const $selectedListBox = $('.activity-search-wrap .selected-list')
-    const $selectedListPanel = $('.activity-search-wrap .selected-list_panel')
-
-    const selectedItems = [] // 已经选择的活动
+    let selectedItems = [] // 已经选择的活动
     const notSelectedItems = []
 
-    $searchInput.blur(function () {
-      const value = $searchInput.val().trim()
-      !value && $searchListPanel.hide()
+    const searchListbuttonEvents = {
+      'add': handleSearchListAddbuttonClick,
+      'delete': handleSearchListDeleteButtonClick
+    }
+
+    const selectedListButtonEvents = {
+      'delete': handleSelectedListDeleteButtonClick
+    }
+
+    $searchListPanel.on('click', handleSearchListButtonClick)
+    $selectedListPanel.on('click', handleSelectedListButtonClick)
+
+    $('body').on('click', function (e) {
+      if (!catIn(e.target, $searchListContainer[0])) {
+        $searchListPanel.hide()
+      }
     })
 
-    const searchItemWithInputValue = this.debounce(function () {
+    function handleSearchListAddbuttonClick(targetListItem) {
+      const id = targetListItem.dataset['id']
+      const origintItem = testDataList.find(function (item) {
+        return item[listProps.id] === id
+      })
+
+      selectedItems.unshift(origintItem)
+      removeClickListItem(targetListItem)
+      renderSearchListSelectedItems(selectedItems)
+      renderSelectedItemsToSelectdList(selectedItems)
+    }
+
+    function handleSearchListDeleteButtonClick(targetListItem) {
+      const id = targetListItem.dataset['id']
+      selectedItems = selectedItems.filter(function (item) {
+        return item[listProps.id] !== id
+      })
+
+      removeClickListItem(targetListItem)
+      renderSelectedItemsToSelectdList(selectedItems)
+    }
+
+    function handleSelectedListDeleteButtonClick (targetListItem) {
+      const id = targetListItem.dataset['id']
+      selectedItems = selectedItems.filter(function (item) {
+        return item[listProps.id] !== id
+      })
+      removeClickListItem(targetListItem)
+    }
+
+    function removeClickListItem(targetListItem) {
+      const listItemContainer = targetListItem.parentNode
+      let deleteTimer = setTimeout(() => {
+        listItemContainer.removeChild(targetListItem)
+        clearTimeout(deleteTimer)
+        deleteTimer = null
+      }, 0)
+    }
+
+    function handleSelectedListButtonClick (e) {
+      let buttonType = ''
+
+      const clickTargetEle = e.target
+      const clickTargetEleClassList = clickTargetEle.classList
+
+      const isButton = clickTargetEleClassList.contains('button')
+      if (!isButton) return
+
+      const targetListItem = clickTargetEle.parentNode
+
+      clickTargetEleClassList.contains('delete-button') &&
+      (buttonType = 'delete')
+
+      selectedListButtonEvents[buttonType](targetListItem)
+    }
+
+    function handleSearchListButtonClick(e) {
+      let buttonType = ''
+
+      const clickTargetEle = e.target
+      const clickTargetEleClassList = clickTargetEle.classList
+
+      const isButton = clickTargetEleClassList.contains('button')
+      if (!isButton) return
+
+      const targetListItem = clickTargetEle.parentNode
+
+      clickTargetEleClassList.contains('add-button') &&
+      (buttonType = 'add')
+
+      clickTargetEleClassList.contains('delete-button') &&
+      (buttonType = 'delete')
+
+      searchListbuttonEvents[buttonType](targetListItem)
+    }
+
+    let searchItemWithInputValue = function () {
       const val = $searchInput.val().trim()
-      if (!val) return
 
       let selectedItemsFromQueryItems = []
       let notSelectedItemsFromQueryItems = []
 
       const queryItems = querySearch(testDataList, val, listProps.value)
-
       queryItems.forEach(function (item) {
         const isSelectedItem = selectedItems.find(function (selectedItem) {
           return isValueEqualStr(selectedItem[listProps.value], item[listProps.value])
         })
 
         isSelectedItem &&
-        selectedItemsFromQueryItems.push(item) ||
-        notSelectedItemsFromQueryItems.push(item)
+        (selectedItemsFromQueryItems.push(item)) ||
+        (notSelectedItemsFromQueryItems.push(item))
       })
 
       $searchListPanel.css('display', 'block')
-      // selectedItemsFromQueryItems
-      // render
-    }, 300)
 
+      renderSearchListNotSelectedItems(notSelectedItemsFromQueryItems)
+      renderSearchListSelectedItems(selectedItemsFromQueryItems)
+    }
+
+    searchItemWithInputValue = debounce(searchItemWithInputValue, 300)
+
+    $searchInput.focus(searchItemWithInputValue)
     $searchInput.keyup(searchItemWithInputValue)
+
+    function renderSelectedItemsToSelectdList(_selectedItems) {
+      $selectedListPanel.children().remove()
+      _selectedItems.forEach(function (item) {
+        const listItem = '<li class="list_panel_item selected-list_panel_item"' +
+        'data-id=' + item[listProps.id] + '>' +
+        '<span class="list_panel_item_name">' +
+        item[listProps.value] +
+        '</span>' +
+        '<i class="button delete-button icon delete-icon">x</i>' +
+        '</li>'
+        $selectedListPanel.append(listItem)
+      })
+    }
+
+    function renderSearchListSelectedItems(items) {
+      if (!Array.isArray(items) || !items.length) {
+        $searchListPanel.children('.selected').remove()
+        return
+      }
+
+      $searchListPanel.children('.selected').remove()
+
+      items.forEach(function (item) {
+        const listPanelItemEle = '<li class="list_panel_item selected"' +
+        'data-id=' + item[listProps.id] + ' ' +
+        '>' +
+        '<span class="list_panel_item_name">' +
+          item[listProps.value] + '</span>' +
+        '<span class="button delete-button">已添加 可移除</span></li>'
+        $searchListPanel.append(listPanelItemEle)
+      })
+    }
+
+    function renderSearchListNotSelectedItems(items) {
+      if (!Array.isArray(items) || !items.length) {
+        $searchListPanel.children('.not-selected').remove()
+        return
+      }
+
+      $searchListPanel.children('.not-selected').remove()
+
+      items.forEach(function (item) {
+        const listPanelItemEle = '<li class="list_panel_item not-selected"' +
+        'data-id=' + item[listProps.id] + ' ' +
+        '>' +
+        '<span class="list_panel_item_name ">' +
+          item[listProps.value] + '</span> <span class="button add-button">添加</span></li>'
+        $searchListPanel.append(listPanelItemEle)
+      })
+    }
 
     function isValueEqualStr(source, target) {
       return source.toLowerCase().indexOf(target.toLowerCase()) !== -1

@@ -1,3 +1,8 @@
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
 .activity-search-wrap ul, li {
   list-style: none outside none;
   list-style-position: inside;
@@ -5,6 +10,7 @@
 }
 
 .activity-search-wrap {
+  position: relative;
   color: #394262;
   font-size: 14px;
 }
@@ -24,13 +30,26 @@
 }
 
 .search-list {
+  position: relative;
+  z-index: 10;
 }
 
 .search-list_result-panel {
+  position: absolute;
+  left: 0;
+  top: 40px;
+  width: 100%;
   display: none;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .selected-list {
+  position: absolute;
+  left: 0;
+  top: 40px;
+  width: 100%;
+  z-index: 1;
 }
 
 .selected-list .delete-icon {
@@ -103,4 +122,13 @@
 .delete-button {
   background: #F2F4F6;
   color: #9B9B9B;
+}
+
+.selected-list_panel_item .button {
+  display: none;
+}
+
+.selected-list_panel_item:hover .button {
+  display: inline-block;
+  color: black;
 }
