@@ -3,10 +3,19 @@ input:focus {
   outline: none;
 }
 
-.activity-search-wrap ul, li {
+p {
+  margin-block-start: 0px;
+  margin-block-end: 0px;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+ul, li {
   list-style: none outside none;
   list-style-position: inside;
   padding-inline-start: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
 }
 
 .activity-search-wrap {
@@ -42,14 +51,17 @@ input:focus {
   display: none;
   max-height: 400px;
   overflow-y: auto;
+  background: #fff;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
 }
 
 .selected-list {
   position: absolute;
   left: 0;
-  top: 40px;
+  top: 50px;
   width: 100%;
   z-index: 1;
+  max-height: 200px;
 }
 
 .selected-list .delete-icon {
@@ -58,10 +70,27 @@ input:focus {
   top: 50%;
   transform: translateY(-50%);
   font-size: 18px;
+  width: 19px;
+  height: 19px;
+  border: 1px solid black;
+  border-radius: 0;
+}
+
+.selected-list_panel {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.selected-list_panel li:hover {
+  cursor: pointer;
+}
+
+.my-handle {
+  cursor: move;
+  cursor: -webkit-grabbing;
 }
 
 .list-box {
-  /* position: absolute; */
   border: 1px solid #C6C6C6;
   border-radius: 4px;
   margin-top: 10px
@@ -69,7 +98,6 @@ input:focus {
 
 .list-panel {
   padding: 10px 0px 20px;
-  /* position: absolute; */
 }
 
 .list_panel_item {
@@ -131,4 +159,21 @@ input:focus {
 .selected-list_panel_item:hover .button {
   display: inline-block;
   color: black;
+}
+
+.popper__arrow {
+  top: -6px;
+  left: 50%;
+  margin-right: 3px;
+  border-top-width: 0;
+  margin-right: 3px;
+  border-top-width: 0;
+  border-bottom-color: #ebeef5;
+}
+
+.draft-info {
+  padding-left: 18px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #394262;
 }

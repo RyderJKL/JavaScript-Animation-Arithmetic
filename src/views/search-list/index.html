@@ -1,17 +1,13 @@
 <div class="activity-search-wrap">
   <div class="search-list">
     <input type="text" id="search-input" placeholder="搜索活动">
-    <ul class="list-box list-panel search-list_result-panel">
-    </ul>
+    <div class="popper__arrow"></div>
+    <ul class="list-box list-panel search-list_result-panel"></ul>
   </div>
 
-  <div class="list-box selected-list">
-    <ul class="list-panel selected-list_panel">
-      <li class="list_panel_item selected-list_panel_item">
-        <span class="list_panel_item_name">啊来撒大家啦啥活动</span>
-        <i class="button delete-button delete-icon">x</i>
-      </li>
-    </ul>
+  <div class="selected-list">
+    <p class="draft-info">（拖拽 <i class=""></i> 可以改变顺序）</p>
+    <ul id="selected-list_panel" class="list-panel selected-list_panel"></ul>
   </div>
 </div>
 

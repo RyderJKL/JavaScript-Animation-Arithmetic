@@ -1,7 +1,7 @@
 import router from '../../router'
 import template from './index.html'
 import './style.css'
-// import './jquery.ba-throttle-debounce.min.js'
+import Sortable from 'sortablejs'
 
 export default class {
   mount(container) {
@@ -51,18 +51,18 @@ export default class {
     }
 
     const testDataList = [
-      { id: 'debug1', value: '[12.09 周日] 莲花山滑雪｜赠送390元雪票-全新雪具-免费教学-京郊最近大型滑雪场' },
-      { id: 'debug2', value: '[12.08 周六] 尤克里里×非洲鼓×桌游体验' },
-      { id: 'debug3', value: '（余位不多）[12.08/12.09 周末]北宋温泉｜穿越北宋朝泡温泉 梦回杨柳青赏年画 休闲一日' },
-      { id: 'debug4', value: '[12.29晚-01.01 元旦]走进北国冰雪童话世界 | 雪乡' },
-      { id: 'debug5', value: '[12.30早-12.31 元旦] CS+打树花--刺激和休闲的绝佳配合' },
-      { id: 'debug6', value: '[12.08/12.09 周末]特惠赠门票｜人间仙境白石山一日游' },
-      { id: 'debug7', value: '[12.08 周六]碧霞山｜重返侏罗纪-探索神奇丹霞地貌' },
-      { id: 'debug8', value: '[12.09 周日] 莲花山滑雪｜赠送390元雪票-全新雪具-免费教学-京郊最近大型滑雪场' },
-      { id: 'debug9', value: '[12.08 周六] 渔阳滑雪，你一定不能错过！' },
-      { id: 'debug10', value: '[12.08 周六]天漠｜大漠苍凉龙门飞甲-柳沟豆腐宴永宁古城一日休闲' },
-      { id: 'debug11', value: '（疯抢中）[12.15/12.16 周末]北京雪乡｜第二届玉渡山雪世界 特价128全含' },
-      { id: 'debug12', value: '周日 温莎KTV（花园桥店）唱歌＋狼人杀' },
+      { id: 'debug1',  value: '[12.09 周日] 莲花山滑雪｜赠送390元雪票-全新雪具-免费教学-京郊最近大型滑雪场' },
+      { id: 'debug2',  value: '[12.08 周六] 尤克里里×非洲鼓×桌游体验' },
+      { id: 'debug3',  value: '（余位不多）[12.08/12.09 周末]北宋温泉｜穿越北宋朝泡温泉 梦回杨柳青赏年画 休闲一日' },
+      { id: 'debug4',  value: '[12.29晚-01.01 元旦]走进北国冰雪童话世界 | 雪乡' },
+      { id: 'debug5',  value: '[12.30早-12.31 元旦] CS+打树花--刺激和休闲的绝佳配合' },
+      { id: 'debug6',  value: '[12.08/12.09 周末]特惠赠门票｜人间仙境白石山一日游' },
+      { id: 'debug7',  value: '[12.08 周六]碧霞山｜重返侏罗纪-探索神奇丹霞地貌' },
+      { id: 'debug8',  value: '[12.09 周日] 莲花山滑雪｜赠送390元雪票-全新雪具-免费教学-京郊最近大型滑雪场' },
+      { id: 'debug9',  value: '[12.08 周六] 渔阳滑雪，你一定不能错过！' },
+      { id: 'debug10',  value: '[12.08 周六]天漠｜大漠苍凉龙门飞甲-柳沟豆腐宴永宁古城一日休闲' },
+      { id: 'debug11',  value: '（疯抢中）[12.15/12.16 周末]北京雪乡｜第二届玉渡山雪世界 特价128全含' },
+      { id: 'debug12',  value: '周日 温莎KTV（花园桥店）唱歌＋狼人杀' }
     ]
 
     const listProps = { id: 'id', value: 'value' }
@@ -74,7 +74,6 @@ export default class {
     const $ListPanelItem = $('.selected-list_panel')
 
     let selectedItems = [] // 已经选择的活动
-    const notSelectedItems = []
 
     const searchListbuttonEvents = {
       'add': handleSearchListAddbuttonClick,
@@ -88,11 +87,23 @@ export default class {
     $searchListPanel.on('click', handleSearchListButtonClick)
     $selectedListPanel.on('click', handleSelectedListButtonClick)
 
+    const el = document.getElementById('selected-list_panel');
+    const sortable = new Sortable(el, {
+      onEnd: handleSelectedListOnEnd
+    })
+
     $('body').on('click', function (e) {
       if (!catIn(e.target, $searchListContainer[0])) {
         $searchListPanel.hide()
       }
     })
+
+    function handleSelectedListOnEnd (evt) {
+      const oldIndex = evt.oldIndex
+      const newIndex = evt.newIndex
+      const targetRow = selectedItems.splice(oldIndex, 1)[0]
+      selectedItems.splice(newIndex, 0, targetRow)
+    }
 
     function handleSearchListAddbuttonClick(targetListItem) {
       const id = targetListItem.dataset['id']
