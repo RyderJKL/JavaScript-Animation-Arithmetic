@@ -156,6 +156,7 @@ module.exports = {
 
 if (dev) {
   module.exports.serve = {
+    host: '0.0.0.0',
     port: config.serve.port,
     // 开发环境允许其他电脑访问
     hot: {

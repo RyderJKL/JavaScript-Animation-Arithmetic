@@ -9,9 +9,9 @@ export default class {
     this.start()
   }
 
-  start (container)  {
+  start (container) {
     const _hotCitysItems = [
-      '拉三等奖', '阿萨德', '阿斯兰的范',
+      '乌鲁木齐', '北京', '齐齐哈尔',
       '拉三等奖', '阿萨德', '阿斯兰的范',
       '拉三等奖', '阿萨德', '阿斯兰的范',
       '拉三等奖', '阿萨德', '阿斯兰的范'
@@ -34,14 +34,85 @@ export default class {
         "city": [
           "北京市"
         ]
+      },
+      {
+        "province": "北京",
+        "city": [
+          "北京市"
+        ]
+      },{
+        "province": "北京",
+        "city": [
+          "北京市"
+        ]
+      },{
+        "province": "北京",
+        "city": [
+          "北京市"
+        ]
+      },{
+        "province": "北京",
+        "city": [
+          "北京市"
+        ]
+      },{
+        "province": "北京",
+        "city": [
+          "北京市"
+        ]
+      },{
+        "province": "北京",
+        "city": [
+          "北京市"
+        ]
+      },{
+        "province": "北京",
+        "city": [
+          "北京市"
+        ]
+      },{
+        "province": "北京",
+        "city": [
+          "北京市"
+        ]
+      },{
+        "province": "北京",
+        "city": [
+          "北京市"
+        ]
+      },{
+        "province": "北京",
+        "city": [
+          "北京市"
+        ]
+      },
+      {
+        "province": "北京",
+        "city": [
+          "北京市"
+        ]
+      },{
+        "province": "北京",
+        "city": [
+          "北京市"
+        ]
+      },{
+        "province": "北京",
+        "city": [
+          "北京市"
+        ]
+      },{
+        "province": "北京",
+        "city": [
+          "北京市"
+        ]
+      },{
+        "province": "北京",
+        "city": [
+          "北京市"
+        ]
       }
     ]
-
-    const addressProps = {
-      value: 'value',
-      key: 'key',
-
-    }
 
     const basicItemProps = {
       value: 'value',
@@ -222,6 +293,7 @@ export default class {
           if (itemProps.hasOwnProperty(key)) {
             const element = item[key];
             $cityItem.attr('data-' + key, element)
+            $cityItem.data(key, element)
             $cityItem.text(item[itemProps.name])
           }
         }
@@ -230,39 +302,33 @@ export default class {
       })
     }
 
+    function generateMenuItem(item, itemProps, isLeafItem) {
+      // const $menuItem = $('<li class="menu-item"><span class="menu-item-name sub-menu-arrow"></li>');
+      const $menuItem = $('<li class="menu-item"><span class="menu-item-name"></span></li>');
+
+      $menuItem.find('span').text(item[itemProps.name])
+      isLeafItem && $menuItem.addClass('leaf-menu')
+
+      for (const key in itemProps) {
+        if (itemProps.hasOwnProperty(key)) {
+          const element = itemProps[key];
+          $menuItem.data(key, item[element])
+          $menuItem.attr("data-" + key, item[element])
+        }
+      }
+
+      return $menuItem
+    }
+
     function genarateMenuTree(items, itemProps) {
       // itemProps = { value, key, name, children, level }
       const $menuNav = $('<nav class="menu menu-drawer"><ul></ul><nav>')
 
-      function generateMenuItem(item, isLeafItem) {
-        // const $menuItem = $('<li class="menu-item"><span class="menu-item-name sub-menu-arrow"></li>');
-        const $menuItem = $('<li class="menu-item"><span class="menu-item-name"></span></li>');
-
-        $menuItem.find('span').text(item[itemProps.name])
-        isLeafItem && $menuItem.addClass('leaf-menu')
-
-        for (const key in itemProps) {
-          if (itemProps.hasOwnProperty(key)) {
-            const element = itemProps[key];
-            $menuItem.attr("data-" + key, item[element])
-          }
-        }
-
-        return $menuItem
-      }
-
       items.forEach(function (item) {
         const hasChildren = (item[itemProps.children]) && (item[itemProps.children].length > 0)
 
-        const $menu = generateMenuItem(item, !hasChildren)
+        const $menu = generateMenuItem(item, itemProps, !hasChildren)
         const $subMenu = $('<ul class="sub-menu"><ul>')
-
-        if (hasChildren) {
-          item.children.forEach(function (child) {
-            $subMenu.append(generateMenuItem(child, true))
-            $menu.append($subMenu)
-          })
-        }
 
         $menuNav.children('ul').append($menu)
       })
@@ -358,19 +424,34 @@ export default class {
 
         // Close menu after leafButtons is clicked
         $leafButtons.click(function (e) {
+          leafClick(e)
+        });
+
+        function leafClick(e) {
           e.stopPropagation();
           $menuPanelDialogEle.hide()
           closeMenu();
           const query = $(this).data()
           handleSearch(query)
-        });
+        }
 
         $li.on('click', function (e) {
           const query = $(this).data()
-          handleSearch(query)
+          const children = query.children
+          if (children && children.length) {
+            const $navContainer = $(this).parentsUntil('nav')
+            $navContainer.children().remove()
+            children.forEach(function (item) {
+              const $itemMenu = generateMenuItem(item, basicItemProps, true)
+              $itemMenu.on('click', leafClick)
+              $navContainer.append($itemMenu)
+            })
+          } else {
+            handleSearch(query)
+          }
         })
 
-        $hotCityItems.click(function (e) {
+        $hotCityItems && $hotCityItems.on('click', function (e) {
           const query = $(this).data()
           handleSearch(query)
           $menuPanelDialogEle.hide()
