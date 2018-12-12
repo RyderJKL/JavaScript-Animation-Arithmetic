@@ -19,6 +19,11 @@ const routes = [
     component: () => import('./views/search-list')
   },
   {
+    name: 'cascader_menu',
+    path: '/cascader_menu',
+    component: () => import('./views/cascader-menu')
+  },
+  {
     name: 'foo',
     path: '/foo',
     component: () => import('./views/foo')
