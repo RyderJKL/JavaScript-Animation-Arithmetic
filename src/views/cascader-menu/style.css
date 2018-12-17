@@ -4,17 +4,56 @@
 .search-menu-container {
   position: relative;
   background: #fff;
+  margin-bottom: 1rem;
+}
+
+.menu-panel-container > .outer-menu {
+  padding-left: 1rem;
 }
 
 .outer-menu {
   display: flex;
   justify-content: space-between;
-  padding: 0.75rem 1rem 0.5rem;
+  text-align: left;
+  padding: 0.75rem 0px 0.5rem;
   border-bottom: 1px solid #C6C6C6;
+  margin-bottom: 10px;
 }
 
 .outer-menu-item {
-  align-items: flex-start;
+  width: 8rem;
+}
+
+.outer-menu-item:hover {
+  cursor: pointer;
+}
+
+.outer-menu-item-name {
+  position: relative;
+}
+
+.outer-menu-item-icon {
+  display: inline-block;
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
+}
+
+.outer-menu-item-icon img {
+  display: inline-block;
+  width: 1rem;
+  vertical-align: baseline;
+}
+
+.rotate90 {
+  transform-origin: top left;
+  transform: rotate(90deg) translate(-100%, -100%);
+  transition: 0.3s;
+}
+
+.rotate180 {
+  transform-origin: top left;
+  transform: rotate(180deg) translate(-100%, -100%);
+  transition: 0.3s;
 }
 
 .title-text {
@@ -54,20 +93,17 @@
 }
 
 .hot-city-box {
-  display: flex;
-  padding: 0 1rem;
-  justify-content: space-between;
-  flex-wrap: wrap;
   padding: 0 1rem;
 }
 
 .hot-city-box-item {
-  width: 19%;
-  height: 2.75rem;
-  line-height: 2.75rem;
+  display: inline-block;
+  width: 18%;
+  height: 3.75rem;
+  line-height: 3.75rem;
   margin-top: 1rem;
-  margin-right: 0.075rem;
-  padding: 0 0.5em;
+  margin-right: 0.7rem;
+  padding: 0 0.5rem;
   overflow: hidden;
   text-align: center;
   border-radius: 4px;
@@ -78,10 +114,21 @@
   cursor: pointer;
 }
 
+.hot-city-box-item:active {
+  background-color: #f5f7fa;
+}
+
 .menu-panel-item-container {
   position: absolute;
   left: 0;
   width: 100%;
+}
+
+.country {
+  height: 4rem;
+  line-height: 4rem;
+  padding-left: 1rem;
+  border-bottom: 1px solid #C6C6C6;
 }
 
 .menu-panel {
@@ -113,6 +160,7 @@
 .menu li {
   position: relative;
   height: 4rem;
+  line-height: 4rem;
   border-bottom: 1px solid #C6C6C6;
 }
 
@@ -129,8 +177,13 @@
   display: block;
 }
 
-.menu-item:hover {
+.menu-item:active {
   cursor: pointer;
+  background-color: #f5f7fa;
+}
+
+.selected {
+  background-color: #f5f7fa;
 }
 
 .menu .sub-menu .menu-item {
@@ -172,10 +225,11 @@
 }
 
 .menu-item-name {
-  position: absolute;
+  /* position: absolute; */
   padding: 0 1rem;
-  left: 0;
-  bottom: 0.75rem;
+  /* left: 0; */
+  /* top: 50%; */
+  /* bottom: 0.75rem; */
 }
 
 .menu .menu-item-name:focus {
@@ -211,4 +265,15 @@
 
 .menu.animated {
   background-color: #000;
+}
+
+.arrow {
+  position: absolute;
+  top: 0;
+  right: -0.75rem;
+}
+
+.arrow.active {
+  transform: rotate(90deg);
+  transition: 0.3s;
 }

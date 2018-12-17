@@ -12,107 +12,14 @@ export default class {
   start (container) {
     const _hotCitysItems = [
       '乌鲁木齐', '北京', '齐齐哈尔',
-      '拉三等奖', '阿萨德', '阿斯兰的范',
-      '拉三等奖', '阿萨德', '阿斯兰的范',
-      '拉三等奖', '阿萨德', '阿斯兰的范'
+      '哈尔滨', '拉萨', '西安', '吐鲁番'
     ]
 
     const hotCitysItems = _hotCitysItems.map(function (item) {
       return { value: item, key: 'city', name: item }
     })
 
-    const _addressItems = [
-      {
-        "province": "河北",
-        "city": [
-          "保定市",
-          "沧州市"
-        ]
-      },
-      {
-        "province": "北京",
-        "city": [
-          "北京市"
-        ]
-      },
-      {
-        "province": "北京",
-        "city": [
-          "北京市"
-        ]
-      },{
-        "province": "北京",
-        "city": [
-          "北京市"
-        ]
-      },{
-        "province": "北京",
-        "city": [
-          "北京市"
-        ]
-      },{
-        "province": "北京",
-        "city": [
-          "北京市"
-        ]
-      },{
-        "province": "北京",
-        "city": [
-          "北京市"
-        ]
-      },{
-        "province": "北京",
-        "city": [
-          "北京市"
-        ]
-      },{
-        "province": "北京",
-        "city": [
-          "北京市"
-        ]
-      },{
-        "province": "北京",
-        "city": [
-          "北京市"
-        ]
-      },{
-        "province": "北京",
-        "city": [
-          "北京市"
-        ]
-      },{
-        "province": "北京",
-        "city": [
-          "北京市"
-        ]
-      },
-      {
-        "province": "北京",
-        "city": [
-          "北京市"
-        ]
-      },{
-        "province": "北京",
-        "city": [
-          "北京市"
-        ]
-      },{
-        "province": "北京",
-        "city": [
-          "北京市"
-        ]
-      },{
-        "province": "北京",
-        "city": [
-          "北京市"
-        ]
-      },{
-        "province": "北京",
-        "city": [
-          "北京市"
-        ]
-      }
-    ]
+    const _addressItems = [ { "province": "河北", "city": [ "保定市", "沧州市" ] }, { "province": "北京", "city": [ "北京市" ] }, { "province": "北京", "city": [ "北京市" ] },{ "province": "北京", "city": [ "北京市" ] },{ "province": "北京", "city": [ "北京市" ] },{ "province": "北京", "city": [ "北京市" ] },{ "province": "北京", "city": [ "北京市" ] },{ "province": "北京", "city": [ "北京市" ] },{ "province": "北京", "city": [ "北京市" ] },{ "province": "北京", "city": [ "北京市" ] },{ "province": "北京", "city": [ "北京市" ] },{ "province": "北京", "city": [ "北京市" ] }, { "province": "北京", "city": [ "北京市" ] },{ "province": "北京", "city": [ "北京市" ] },{ "province": "北京", "city": [ "北京市" ] },{ "province": "北京", "city": [ "北京市" ] },{ "province": "北京", "city": [ "北京市" ] } ]
 
     const basicItemProps = {
       value: 'value',
@@ -143,6 +50,7 @@ export default class {
     ]
 
     const statusItems = [
+      { value: 'all', key: 'status', name: '全部', level: 1 },
       { value: 'waiting_signup', key: 'status', name: '等待报名', level: 1 },
       { value: 'signup', key: 'status', name: '报名中', level: 1 },
       { value: 'end_signup', key: 'status', name: '报名结束', level: 1 },
@@ -172,10 +80,28 @@ export default class {
     const $timePanelEle = $('#js-time-panel')
     const $statusPanelEle = $('#js-status-panel')
 
+    const $jsCountrySelect = $('#js-country-select')
     const $hotCityBox = $addressPanelEle.find('.hot-city-box')
     let $hotCityItems = ''
 
     const $menuPanelContainerMask = $('.menu-panel-container-mask')
+
+    const $outerMenuItem = $('.outer-menu-item');
+
+    $jsCountrySelect.on('click', function () {
+      const countryObj = { value: '全国', key: 'country', name: '全国' };
+      handleSearch(countryObj)
+      $menuPanelDialogEle.hide()
+    })
+
+    $outerMenuItem.on('click', function () {
+      const $outerMenuItemIcon = $(this).find('.outer-menu-item-icon');
+      $outerMenuItem.siblings().find('img').removeClass('rotate180')
+
+      if ($outerMenuItemIcon.hasClass('toggle-icon')) {
+        $outerMenuItemIcon.find('img').addClass('rotate180')
+      }
+    })
 
     $addressMenuEle.on('click', function (e) {
       openSearchMenuPanel('address', true)
@@ -209,23 +135,31 @@ export default class {
 
       queryObj[queryKey] = queryValue
       switch (queryKey) {
+        case 'country':  // 全国
+          queryObj.province = ''
+          queryObj.city = ''
+          $addressMenuEle.find(".outer-menu-item-name").text(queryName)
+          $jsDialogAddressMenu.find(".outer-menu-item-name").text(queryName)
+          break;
         case 'city':  // 热门城市
-          delete queryObj.province
-          $addressMenuEle.text(queryName)
-          $jsDialogAddressMenu.text(queryName)
+          queryObj.province = ''
+          queryObj.country = ''
+          $addressMenuEle.find(".outer-menu-item-name").text(queryName)
+          $jsDialogAddressMenu.find(".outer-menu-item-name").text(queryName)
           break;
         case 'province':  // 省份
-          delete queryObj.city
-          $addressMenuEle.text(queryName)
-          $jsDialogAddressMenu.text(queryName)
+          queryObj.city = ''
+          queryObj.country = ''
+          $addressMenuEle.find(".outer-menu-item-name").text(queryName)
+          $jsDialogAddressMenu.find(".outer-menu-item-name").text(queryName)
           break;
         case 'status':  // 活动状态
-          $statusMenuEle.text(queryName)
-          $jsDialogTimeMenu.text(queryName)
+          $statusMenuEle.find(".outer-menu-item-name").text(queryName)
+          $jsDialogStatusMenu.find(".outer-menu-item-name").text(queryName)
           break;
         case 'signin_time':  // 时段
-          $timeMenuEle.text(queryName)
-          $jsDialogStatusMenu.text(queryName)
+          $timeMenuEle.find(".outer-menu-item-name").text(queryName)
+          $jsDialogTimeMenu.find(".outer-menu-item-name").text(queryName)
           break;
         default:
           break;
@@ -422,22 +356,18 @@ export default class {
           $drawers.removeClass(className).css('height', '');
         }
 
-        // Close menu after leafButtons is clicked
-        $leafButtons.click(function (e) {
-          leafClick(e)
-        });
-
-        function leafClick(e) {
-          e.stopPropagation();
+        function leafClick() {
           $menuPanelDialogEle.hide()
           closeMenu();
           const query = $(this).data()
-          handleSearch(query)
+          handleSearch(query);
         }
 
         $li.on('click', function (e) {
           const query = $(this).data()
           const children = query.children
+          handleSearch(query)
+
           if (children && children.length) {
             const $navContainer = $(this).parentsUntil('nav')
             $navContainer.children().remove()
@@ -447,7 +377,8 @@ export default class {
               $navContainer.append($itemMenu)
             })
           } else {
-            handleSearch(query)
+            $menuPanelDialogEle.hide();
+            closeMenu();
           }
         })
 
