@@ -122,6 +122,8 @@
   position: absolute;
   left: 0;
   width: 100%;
+  height: 80vh;
+  overflow: auto;
 }
 
 .country {
@@ -133,11 +135,6 @@
 
 .menu-panel {
   display: none;
-}
-
-.nav-container {
-  max-height: 50vh;
-  overflow: auto;
 }
 
 .all-items-text {

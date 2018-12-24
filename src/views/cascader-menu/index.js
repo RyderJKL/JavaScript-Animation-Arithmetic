@@ -81,6 +81,7 @@ export default class {
     const $statusPanelEle = $('#js-status-panel')
 
     const $jsCountrySelect = $('#js-country-select')
+    const $hotCityBoxWrapper = $('#hot-city-box-wrapper')
     const $hotCityBox = $addressPanelEle.find('.hot-city-box')
     let $hotCityItems = ''
 
@@ -181,6 +182,8 @@ export default class {
 
     function openSearchMenuPanel (menuType, openDialog) {
       openDialog && $menuPanelDialogEle.show()
+      $hotCityBoxWrapper.show()
+      $jsCountrySelect.show()
       let menuTree = ''
       let navContainer = ''
 
@@ -366,6 +369,9 @@ export default class {
         $li.on('click', function (e) {
           const query = $(this).data()
           const children = query.children
+          $hotCityBoxWrapper.hide()
+          $jsCountrySelect.hide()
+
           handleSearch(query)
 
           if (children && children.length) {

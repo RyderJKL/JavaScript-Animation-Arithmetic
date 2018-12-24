@@ -5,6 +5,10 @@ import './style.css'
 
 export default class {
   mount(container) {
+    // console.log(container);
+    console.log(document.querySelector('.content'))
+    const content = container.querySelector('.content')
+    console.log(container.querySelector('.foo__gobar'));
     document.title = 'foo'
     container.innerHTML = template
     container.querySelector('.foo__gobar').addEventListener('click', () => {

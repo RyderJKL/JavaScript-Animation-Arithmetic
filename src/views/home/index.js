@@ -8,7 +8,6 @@ export default class {
     document.title = 'home'
     container.innerHTML = template
     container.querySelector('.menu').addEventListener('click', function (e) {
-      console.log(e)
       const target = e.target
       const menuLink = target.dataset && target.dataset.link
       if (!menuLink) return
