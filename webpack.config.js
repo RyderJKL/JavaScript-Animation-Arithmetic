@@ -83,6 +83,10 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'postcss-loader']
       },
       {
+        test: /\.less$/,
+        use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader']
+      },
+      {
         // 匹配各种格式的图片和字体文件
         // 上面 html - loader 会把 html 中 < img > 标签的图片解析出来， 文件名匹配到这里的 test 的正则表达式，
         // css - loader 引用的图片和字体同样会匹配到这里的 test 条件

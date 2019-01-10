@@ -2,6 +2,7 @@ import router from '../../router'
 import template from './index.html'
 import './style.css'
 import Sortable from 'sortablejs'
+import { _typeof } from 'ojo.js'
 
 export default class {
   mount(container) {

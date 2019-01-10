@@ -1,0 +1,520 @@
+@import '../../style/reset.less';
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-size: 0.2rem;
+}
+
+@tableCellColor: #7293A9; // 座位颜色
+@alreadySelectSeatColor: #7293A9; // 已选座位
+@alreadySelectSeatBorderColor: #C1D9E9; // 已选座位边框
+
+@currentSelectedSeatColor: #FF3C4D; // 当前选中座位
+@currentSelectedSeatBorderColor: #FFB2B8; // 当前选中座位边框
+
+@canSelectSeatColor: #D9DBE7; // 可选座位
+@canSelectSeatBorderColor: #CBCEE4; // 可选座位边框
+
+@specialSeatColor: #FF3C4D; // 特殊座位
+@specialSeatBorderColor: #FF3C4D; // 特殊座位边框
+
+@outerCircleBgColor: #F0F1F5; // 圆环背景色
+
+@footerShoppingCarBgColor: #7293A9; // 底部购物车背景色
+@footerPriceConfirmBtnColor: #426C88;
+
+.fixed-top {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  animation: all 0.3s;
+  // bottom: 0;
+  // right: 0;
+}
+
+.seat-app-bg-img-preivew {
+  position: relative;
+  padding-top: 0.05rem;
+  font-size: 0;
+  height: 2.7rem;
+  overflow: hidden;
+
+  .seat-app-bg-img-preivew__rotate-button {
+    float: right;
+    background: #7293A9;
+    border-radius: 0.185rem;
+    padding-left: 0.13rem;
+    padding-right: 0.05rem;
+    font-size: 0.2rem;
+    color: #FFFFFF;
+    width: 2.2rem;
+    line-height: 0.4rem;
+    height: 0.4rem;
+
+    img {
+      float: right;
+      max-width: 0.3rem;
+      margin-top: 0.04rem;
+      margin-right: 0.06rem;
+    }
+  }
+
+  .seat-app-bg-img-preivew_img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: -1;
+    img {
+      display: block;
+      max-width: 100%;
+      margin: auto;
+    }
+  }
+}
+
+.seat-app-container {
+}
+
+.seat-app-header-tab {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: .2rem 0;
+  background: #FFFFFF;
+  box-shadow: 0 7px 10px 0 rgba(0, 0, 0, 0.08);
+}
+
+.seat-app-header-tab_item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.62rem;
+  height: 1rem;
+  background: #FAFAFB;
+  border: 2px solid #D9E0E6;
+  border-radius: 0.5rem;
+  color: #4A4A4A;
+  text-align: center;
+}
+
+.seat-app-header-tab_item:hover {
+  cursor: pointer;
+}
+
+.active {
+  color: white;
+  background: #FF3C4D;
+  border: none;
+}
+
+.seat-price {
+  font-size: .26rem;
+  font-weight: bold;
+}
+
+.seat-app-table-list-container {
+  margin-top: 0.1rem;
+  padding-bottom: 4.2rem;
+}
+
+.table_row {
+  display: flex;
+  margin-top: 1rem;
+  justify-content: space-around;
+}
+
+.table_col_item {
+  position: relative;
+  margin-top: 0.6rem;
+  z-index: 2;
+}
+
+.table_col_cell_1 {
+  width: 4.1rem;
+  height: 4.1rem;
+}
+
+.table_col_cell_2 {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+.table_col_item_outer-circle {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 3;
+  padding: 0.5rem;
+  border-radius: 50%;
+  background: url('/static/huaqiao/bg_logo1.png') center center no-repeat;
+  background-size: cover;
+  background-color: @outerCircleBgColor;
+}
+
+.table_col_item_inner-circle_number-circle {
+  position: absolute;
+  z-index: 10;
+  height: 0.4345rem;
+  width: 0.4345rem;
+  transform: translateY(-50%) translateX(-50%);
+  margin-top: 50%;
+  margin-left: 50%;
+}
+
+.table-inner-circle_number-circle_square {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  z-index: 11;
+  transform: rotate(45deg);
+  background: #C7AE8E;
+  border-radius: 0.0469rem;
+}
+
+.table-inner-circle_number-circle_square::after {
+  position: absolute;
+  content: attr(data-number);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  transform: rotate(-45deg);
+  font-size: 0.3rem;
+  color: white;
+  text-align: center;
+  line-height: 100%;
+}
+
+.table_col_item_cell {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+}
+
+.table_col_item_cell::before {
+  position: absolute;
+  content: attr(data-number);
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: -1;
+  border: 2px solid;
+  color: @tableCellColor;
+  font-weight: 500;
+  border-radius: 0.0973rem 0.0973rem 0 0;
+  transform: perspective(0.6rem) rotateX(-22.5deg);
+  background: @canSelectSeatColor;
+  border-color: @canSelectSeatBorderColor;
+}
+
+.table_col_item_cell__select::before {
+  background: @canSelectSeatColor;
+  border-color: @canSelectSeatBorderColor;
+}
+
+.table_col_item_cell__select:hover::before {
+  color: white;
+}
+
+// .table_col_item_cell__current_selected:hover {
+// }
+
+.table_col_item_cell__current_selected::before {
+  background: @currentSelectedSeatColor;
+  border-color: @currentSelectedSeatBorderColor;
+  color: white;
+}
+
+.table_col_item_cell__already_select:hover {
+  cursor: not-allowed;
+}
+
+.table_col_item_cell__already_select::before {
+  background: @alreadySelectSeatColor;
+  border-color: @alreadySelectSeatBorderColor;
+  color: white;
+}
+
+.table_col_item_cell__special:hover {
+  cursor: not-allowed;
+}
+
+.table_col_item_cell__special::before {
+  background: @specialSeatColor;
+  border-color: @specialSeatBorderColor;
+  color: white;
+}
+
+.table_col_cell_1 .table_col_item_cell {
+  width: 0.4rem;
+  height: 0.9rem;
+}
+
+.table_col_cell_2 .table_col_item_cell {
+  width: 0.5rem;
+  height: 0.8rem;
+}
+
+.seat_number {
+  color: white;
+  font-size: 0.25rem;
+}
+
+.seat-app-footer {
+}
+
+.seat-app-footer_shopping-car {
+  // display: flex;
+  // justify-content: space-around;
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  bottom: 0;
+  background: @footerShoppingCarBgColor;
+  width: 100%;
+  height: 1.2rem;
+  line-height: 1.2rem;
+  padding: 0 0.3rem;
+  color: #FFFFFF;
+
+  .total_text {
+    font-size: 0.28rem;
+  }
+
+  .total_price {
+    font-size: 0.4rem;
+    font-weight: bold;
+    margin-left: 0.3rem;
+    vertical-align: sub;
+  }
+
+  .total_detail_btn {
+    font-size: 0.24rem;
+    text-decoration: underline;
+    margin-left: 0.3rem;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .price_confirm_btn  {
+    float: right;
+    width: 2.16rem;
+    height: 0.78rem;
+    line-height: 0.78rem;
+    margin-top: 0.22rem;
+    background: @footerPriceConfirmBtnColor;
+    border-radius: 0.5rem;
+    text-align: center;
+    font-size: 0.3rem;
+    font-weight: 500;
+
+    &:hover {
+      cursor: pointer;
+      background: darken(@footerPriceConfirmBtnColor, 5%);
+    }
+  }
+}
+
+// modal style
+.modal {
+  display: none;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  // bottom: 1.2rem;
+  z-index: 20;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  animation-name: fadeIn;
+  animation-duration: 0.4s
+}
+
+.modal-content {
+  position: fixed;
+  background-color: #FFFFFF;
+}
+
+.modal-body {
+  padding: 0.3rem 0.4rem;
+}
+
+.modal-close {
+
+}
+
+@keyframes slideIn {
+  from {
+    bottom: -3rem;
+    opacity: 0;
+  }
+  to {
+    bottom: 1.2rem;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.shopping-car-detail-modal {
+  .modal-content {
+    bottom: 1.2rem;
+    width: 100%;
+    animation-name: slideIn;
+    animation-duration: 0.4s
+  }
+
+  .shopping-car-detail_title {
+    font-size: 0.32rem;
+    color: #4A4A4A;
+    margin-bottom: 0.3rem;
+  }
+
+  .shopping-car-detail_list_item {
+    height: 0.36rem;
+    line-height: 0.36rem;
+
+    .table-name {
+      color: #4A4A4A;
+      font-size: 0.28rem;
+      margin-right: 0.23rem;
+    }
+
+    .seat-unit-price {
+      margin-right: 0.34rem;
+      display: inline-block;
+      width: 1.4rem;
+      text-align: right;
+
+      .seat-unit-price_number {
+        font-weight: 500;
+        font-size: 0.26rem;
+        color: #4A4A4A;
+      }
+    }
+
+    .seat-count {
+      font-size: 0.24rem;
+      color: #9B9B9B;
+    }
+
+    .seat-total-price {
+      float: right;
+      color: #7293A9;
+      font-size: 0.24rem;
+    }
+  }
+}
+
+.submit-check-modal {
+  .modal-content {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    width: 5.47rem;
+    max-height: 4.2rem;
+    border-radius: 0.2rem;
+  }
+
+  .modal-header {
+    background: #D9DBE7;
+    text-align: center;
+    padding: 0.2rem 0;
+    border-radius: 0.2rem 0.2rem 0 0;
+    .prompt-title {
+      font-size: 0.36rem;
+      font-weight: 500;
+      color: #426C88;
+    }
+  }
+
+  .modal-body {
+    font-size: 0.28rem;
+    color: #4A4A4A;
+    text-align: center;
+    line-height: 0.45rem;
+    min-height: 3.76rem;
+    .check-submit-button {
+      display: inline-block;
+      height: 0.8rem;
+      line-height: 0.8rem;
+      width: 2.4rem;
+      background: #426C88;
+      border-radius: 0.4rem;
+      color: white;
+      font-size: 0.36rem;
+      font-weight: 500;
+      margin-top: .23rem;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.bg-preivew-img-modal {
+  z-index: 1000;
+  .modal-close {
+    position: absolute;
+    width: 0.5rem;
+    height: 0.5rem;
+    line-height: 0.5rem;
+    top: 0.1rem;
+    color: black;
+    background: white;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    right: 0.1rem;
+    z-index: 10;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .modal-content {
+    width: 100vh;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      transform: rotate(-90deg) translateY(-50%);
+      max-width: 90vh;
+    }
+  }
+}

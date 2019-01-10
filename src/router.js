@@ -9,6 +9,11 @@ const routes = [
     component: () => import('./views/home')
   },
   {
+    name: 'seat',
+    path: '/select-seat',
+    component: () => import('./views/select-seat')
+  },
+  {
     name: 'bubblesort',
     path: '/bubblesort',
     component: () => import('./views/bubblesort')

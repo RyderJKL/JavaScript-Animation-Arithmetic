@@ -176,8 +176,6 @@ export default class {
       }
 
       queryStr = queryStr.replace(/\&$/, '')
-
-      console.log(queryStr);
     }
 
     function openSearchMenuPanel (menuType, openDialog) {

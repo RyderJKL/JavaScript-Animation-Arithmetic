@@ -90,8 +90,6 @@ export default class {
           }
         }
       }
-
-      console.log(barsArray)
     }
   }
 
