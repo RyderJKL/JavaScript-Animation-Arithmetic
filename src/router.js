@@ -9,6 +9,11 @@ const routes = [
     component: () => import('./views/home')
   },
   {
+    name: 'todo',
+    path: '/todo',
+    component: () => import('./views/backbone-todo')
+  },
+  {
     name: 'seat',
     path: '/select-seat',
     component: () => import('./views/select-seat')
@@ -32,6 +37,11 @@ const routes = [
     name: 'foo',
     path: '/foo',
     component: () => import('./views/foo')
+  },
+  {
+    name: 'swiper',
+    path: '/swiper',
+    component: () => import('./views/swiper')
   },
   {
     name: 'bar',

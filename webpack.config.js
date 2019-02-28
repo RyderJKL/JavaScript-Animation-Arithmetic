@@ -20,7 +20,8 @@ module.exports = {
   resolve: {
     // 简化 import 路径
     alias: {
-      '~': resolve(__dirname, 'src')
+      '~': resolve(__dirname, 'src'),
+      static: resolve(__dirname, 'static')
     }
   },
 
